@@ -7,7 +7,7 @@
 
 **CSTEapp** provides a uniform statistical inferential tool, **the Covariate-Specific Treatment Effect (CSTE) curve** for estimating individualized treatment rule.
 
-**CSTEapp** estimates differences of average outcomes between different treatment groups conditional on patients characteristics and provides the corresponding simultaneous confidence bands. Based on the CSTE curve and the simultaneous confidence bands, one can decide the subgroups of patients that benefit from each treatment and then make individualized treatment selections.
+**CSTEapp** estimates differences of average outcomes between different treatment groups conditional on patients characteristics and provides the corresponding simultaneous confidence intervals. Based on the CSTE curve and the simultaneous confidence intervals, one can decide the subgroups of patients that benefit from each treatment and then make individualized treatment selections.
 
 ### Data structure suitable in the **CSTEapp**
 
@@ -22,7 +22,7 @@
 ### How to read the CSTE curve and choose the optimal treatment
 
 
-*   Given the observed covariates, estimate **the CSTE curve** and the corresponding **simultaneous confidence bands (SCB)** at a certain (usually 0.05) confidence level.   
+*   Given the observed covariates, estimate **the CSTE curve** and the corresponding **simultaneous confidence intervals** at a certain (usually 0.05) confidence level.   
 
 *   Based on the SCB, identify the cutoff points of **the positive and negative regions** of the CSTE.  
     
@@ -37,9 +37,9 @@
 
 <img src="eg.png" alt="Graph" style="width:70%; height:auto;">
 
-Suppose this CSTE curve was simulated for binary outcomes $Y$, **where $Y=1$ indicated deterioration in health and $Y=0$ otherwise**; **$Z=1$ indicated assignment of the new treatment and $Z=0$ the old treatment**.
+Suppose this CSTE curve was simulated for binary outcomes $Y$, **where** $Y=1$ **indicated deterioration in health and** $Y=0$ **otherwise**, and $Z=1$ **indicated assignment of the new treatment and** $Z=0$ **the old treatment**.
 
-*   If data ($\tilde{\boldsymbol x}^\top\hat{\boldsymbol\beta}_1$) falls into the region $(-1,a]$ or $[d,0.25)$, we have 95\% confidence to conclude that the patient will **benefit from the new treatment**; 
+*   If data of new subjects, $\tilde{\boldsymbol x}^\top\hat{\boldsymbol\beta}_1$, falls into the region $(-1,a]$ or $[d,0.25)$, we have 95\% confidence to conclude that the patient will **benefit from the new treatment**; 
 
 
 *   If $\tilde{\boldsymbol x}^\top\hat{\boldsymbol\beta}_1$ falls into $[b,c]$, we have 95\% confidence to conclude that the patient will **benefit from the old treatment**; 
