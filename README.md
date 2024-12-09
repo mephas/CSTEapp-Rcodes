@@ -6,7 +6,7 @@ The source R codes for the paper:  CSTEapp: An interactive R-Shiny application o
 
 - [cste-rshiny](cste-rshiny/) folder contains the source codes of [CSTEapp](https://alain003.phs.osaka-u.ac.jp/mephas_web/11cste/) 
 
-- [example][examples/] folder contains the data and R codes mentioned in Section 3
+- [examples][examples/] folder contains the data and R codes mentioned in Section 3
 
 	- `aids-est.csv` and `aids-pred.csv` were used in Section 3.1 for estimation and prediction, respectively.
 
