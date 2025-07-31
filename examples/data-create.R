@@ -1,19 +1,19 @@
 ## data creation
 ## 
 # Example 1
-data = read.csv("data-AIDS.csv")%>%as.data.frame()
-z = data$treat
-y = data$cid
-x = scale(data[,c(4,5,21,22,23,24),drop=F])  ## scaled covariates
-aids=data.frame(treat = data$treat, outcome = data$cid, x)
-set.seed(123)
-id = sample(2100)
-est.aids = aids[id,]
-pred.aids = aids[-id,-c(1:2)]
-
-## save data
-write.csv(est.aids, "aids-est.csv", row.names = F)
-write.csv(pred.aids, "aids-pred.csv", row.names = F)
+# data = read.csv("data-AIDS.csv")%>%as.data.frame()
+# z = data$treat
+# y = data$cid
+# x = scale(data[,c(4,5,21,22,23,24),drop=F])  ## scaled covariates
+# aids=data.frame(treat = data$treat, outcome = data$cid, x)
+# set.seed(123)
+# id = sample(2100)
+# est.aids = aids[id,]
+# pred.aids = aids[-id,-c(1:2)]
+# 
+# ## save data
+# write.csv(est.aids, "aids-est.csv", row.names = F)
+# write.csv(pred.aids, "aids-pred.csv", row.names = F)
 
 # Example 2
 
@@ -53,11 +53,11 @@ data3 = data.frame(X=round(X,3))
 
 ## Example 3
 ## 
-set.seed(123)
-data = read.csv("leukemiaPKU.csv")%>%na.omit()%>%
-  group_by(TRANSPLANT)%>%sample_n(40)
-data = data[,c(3,19,20,5)]
-write.csv(data,"leukemiaPKU-surv.csv", row.names = F)
+# set.seed(123)
+# data = read.csv("leukemiaPKU.csv")%>%na.omit()%>%
+#   group_by(TRANSPLANT)%>%sample_n(40)
+# data = data[,c(3,19,20,5)]
+# write.csv(data,"leukemiaPKU-surv.csv", row.names = F)
 
 ## Example 4
 set.seed(123)
@@ -78,5 +78,6 @@ c = -log(1-runif(n))/a/x
 s = as.numeric(t<c)
 y = s*t+(1-s)*c
 data2 = data.frame(Treat1 = z1, Treat2 = z2, Censor = s, Time = round(y,2), Biomarker = round(x2,3))
+data4 = data.frame(Treat = z1+2*z2, Censor = s, Time = round(y,2), Biomarker = round(x2,3))
 
-save(data1,data2,data3,file = "example.RData")
+save(data1,data2,data3,data4,file = "example.RData")
