@@ -32,8 +32,9 @@ prettyRadioButtons(
    inputId = "edata2",
    label =  NULL,
    choices =  list(
-    "Data2: time-to-event outcome " = "data2"),
-   selected = "data2",
+   "Data1: data with single treatment variable"= "data4",
+    "Data2: data with multiple dummy treatment variables" = "data2"),
+   selected = "data4",
     icon = icon("database"),
     status = "primary"
 )),
@@ -70,15 +71,19 @@ h3("Model Estimation"),
    radioGroupButtons(
    inputId = "ztype",
    label = NULL,
-   choices = list("Single treatment variable"="FALSE", "Multiple treatment variables"="TRUE"),
-   selected="TRUE",
+   direction = "vertical",
+   choices = list(
+      "Single treatment"="A", 
+      "Multiple treatment coded by a single variable"="B",
+      "Multiple treatment coded by dummy variables"="C"),
+   selected="B",
    status = "primary",
    justified = TRUE,
     checkIcon = list(
       yes = icon("ok", 
     lib = "glyphicon"))
 ),         
-   tags$b("Treatments (choose one or more binary variables)"),
+   tags$b("Treatments (choose one variable or multiple dummy variables)"),
    uiOutput("z2"),
    tags$b("Censoring indicator (choose one binary variable)"),
    uiOutput("d2"),
@@ -86,7 +91,7 @@ h3("Model Estimation"),
    uiOutput("t2"),
    tags$b("Covariates (choose one or more numerical variables)"),
    uiOutput("x2"),
-   conditionalPanel(condition="input.ztype=='TRUE'",
+   conditionalPanel(condition="input.ztype!='A'",
    tags$b("Contrast vector: input the values of vector in the linear combination of beta(x) for each treatment, e.g, c1*beta1(x)+c2*beta2(x)+..."),
    uiOutput("c2")),
    materialSwitch(

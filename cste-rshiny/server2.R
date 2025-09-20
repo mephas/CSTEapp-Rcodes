@@ -3,6 +3,7 @@
 
 dataeg2 <- reactive({
   switch(input$edata2,
+    "data4" = data4,
     "data2" = data2
   )
 })
@@ -119,10 +120,10 @@ output$z2 <- renderUI({
   pickerInput(
     "z2",
     label= NULL,
-    choices = type.bin2(),
-    selected= (if(input$ztype=="TRUE") type.bin2()[1:2] else type.bin2()[1]),
+    choices = (if(input$ztype=="B") type.num2() else type.bin2()),
+    selected= (if(input$ztype=="A") type.bin2()[1] else if(input$ztype=="B") type.num2()[1]  else type.bin2()[1:2]),
     width = "100%",
-    multiple = (if(input$ztype=="TRUE") TRUE else FALSE)
+    multiple = (if(input$ztype=="C") TRUE else FALSE)
   )
 })
 type.bin.d <- reactive({
@@ -195,7 +196,10 @@ sliderTextInput(
 
 
 Y2 <- reactive({(subset(data_2(), select=input$t2, drop = FALSE))})
-Z2 <- reactive({(subset(data_2(), select=input$z2, drop = FALSE))})
+Z2 <- reactive({subset(data_2(), select=input$z2, drop = FALSE)
+  # if (ncol(Z)==1 && sum(Z>1)>0) Z= as.matrix(fastDummies::dummy_cols(Z, remove_first_dummy = TRUE,remove_selected_columns = TRUE))
+    # return(Z)
+})
 S2 <- reactive({(subset(data_2(), select=input$d2, drop = FALSE))})
 X2 <- reactive({(subset(data_2(), select=input$x2, drop = FALSE))})
 
@@ -219,20 +223,25 @@ shinyjs::disable("Bplot1_sv")
   validate(need(input$z2, "Choose Treatment variable"))
   # validate(need(input$ztype=="TRUE" & is.null(input$c2), "Please check the contrast vector for the multiple treatments"))
 # validate(need(length(input$c2) == length(input$z2), "Please check the length of contrast vector"))
-  if(length(input$z2)==1) c2=1 else c2 <- as.numeric(unlist(strsplit(input$c2,",")))
-  validate(need(length(c2) == length(input$z2), "Please check the length of contrast vector"))
+  if((input$ztype=="A")) c2=1 else c2 <- as.numeric(unlist(strsplit(input$c2,",")))
+  if((input$ztype=="A")) validate(need(length(c2) == length(input$z2), "Please check the length of contrast vector"))
 
 
   if(is.null(input$alpha2)) aa=0.05 else aa = input$alpha2
   if(is.null(input$m2)) mm=50 else mm = input$m2
   if(is.null(input$kh2)) hh=0.5 else hh = input$kh2
 
-# browser()
+
   c2text(c2)
   
+  if(input$ztype!="B") ZZ=as.matrix(Z2())
+  if(input$ztype=="B") ZZ=as.matrix(fastDummies::dummy_cols(Z2(), remove_first_dummy = TRUE,remove_selected_columns = TRUE))
+
   X2 = (X2() - min(X2())) / (max(X2()) - min(X2()))
+
+# browser()
   res <- cste_surv_SCB((c2),
-    x = unlist(X2), y = unlist(Y2()), z = as.matrix(Z2()), s = unlist(S2()), 
+    x = unlist(X2), y = unlist(Y2()), z = ZZ, s = unlist(S2()), 
     h = hh, m = mm, alpha = aa)  
 
 res2(res)
@@ -357,14 +366,14 @@ ggplot(df, mapping = aes(x = x)) +
   geom_hline(yintercept=0, colour = "#53868B", lty=2)+
   # geom_ribbon(mapping=aes(ymin=ub,ymax=lb, fill="Confidence band"), colour="#87cefa", alpha=0.2) +
   geom_line(aes(y = y, colour = "Fitted"), na.rm = TRUE)+
-  geom_line(aes(y=ub, colour = "Confidence band"), na.rm = TRUE)+
-  geom_line(aes(y=lb, colour = "Confidence band"), na.rm = TRUE)+
+  geom_line(aes(y=ub, colour = "Simultaneous \nconfidence \nband"), na.rm = TRUE)+
+  geom_line(aes(y=lb, colour = "Simultaneous \nconfidence \nband"), na.rm = TRUE)+
   theme(panel.background = element_rect(fill = "white", colour = "grey50"),
         panel.grid.major = element_line(colour = "grey87"),
         legend.key = element_rect (fill = "white"),
         legend.position = "bottom")+
   scale_colour_manual("CSTE Curve", 
-                      breaks = c("Fitted","Confidence band"),
+                      breaks = c("Fitted","Simultaneous \nconfidence \nband"),
                       values = c("#F8766D","#87cefa"),
                       guide = guide_legend(override.aes = list(lty = c(1,1))))
   # scale_fill_manual(" ", 

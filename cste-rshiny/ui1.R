@@ -87,7 +87,7 @@ tags$b("Covariates (choose one or more numerical variables)"),
 uiOutput("x1"),
 awesomeCheckbox(
    inputId = "scale",
-   label = tags$b("I need standardization of covariates (standard scaling)"), 
+   label = tags$b("I need standardization of covariates (standard Z-score normalization)"), 
    value = FALSE,
    status = "primary"),
 conditionalPanel("input.clamb=='TRUE'",
@@ -343,6 +343,7 @@ tabsetPanel(
     ),
 
       h4("The predicted location of x-axis for new subject"),
+      helpText(HTML("The order indicates values from left to right. E.g., Order1 indicates the leftmost values.")),
       DTOutput("res.tablep")
       )
 )
