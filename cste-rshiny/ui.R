@@ -33,6 +33,8 @@ if(!requireNamespace("shinyjs",quietly=TRUE)) install.packages("shinyjs")
 library("shinyjs",quietly=TRUE)
 if(!requireNamespace("latex2exp",quietly=TRUE)) install.packages("latex2exp")
 library("latex2exp",quietly=TRUE)
+if(!requireNamespace("markdown",quietly=TRUE)) install.packages("markdown")
+library("markdown",quietly=TRUE)
 # Define UI for application that draws a histogram
 # fluidPage(
 tagList(
